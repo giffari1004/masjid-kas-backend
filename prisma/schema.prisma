@@ -1,0 +1,52 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum TransactionType {
+  IN    // Kas Masuk
+  OUT   // Kas Keluar
+}
+
+enum KasCategory {
+  OPERASIONAL
+  JUMAT
+  PEMBANGUNAN
+  EVENT
+  ZAKAT_MAL
+}
+
+model Transaction {
+  id            String           @id @default(uuid())
+  type          TransactionType  // IN atau OUT
+  category      KasCategory      // Kategori kas
+  source        String?          // Contoh: Kotak amal Jumat, amplop, dll
+  amount        Decimal          @db.Decimal(12, 2) // Nominal rupiah
+  donorName     String?          // Nama donatur (opsional)
+  description   String?          // Keterangan / Uraian keperluan
+  receiptUrl    String?          // URL foto bukti nota dari Supabase Storage
+  transactionDate DateTime       @default(now())
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+
+  @@map("transactions")
+}
+
+model Admin {
+  id        String   @id @default(uuid())
+  username  String   @unique
+  password  String   // Hashed password (bcrypt)
+  createdAt DateTime @default(now())
+
+  @@map("admins")
+}
