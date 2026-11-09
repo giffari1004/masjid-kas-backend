@@ -5,6 +5,7 @@ import { prisma } from "./lib/prisma";
 import authRoutes from './routes/auth.route'
 import transactionRoutes from "./routes/transaction.route";
 import dashboardRoutes from "./routes/dashboard.route"
+import reportRoutes from "./routes/report.route";
 
 // Load environment variables dari file .env
 dotenv.config();
@@ -35,6 +36,7 @@ app.get("/api/health", (req: Request, res: Response) => {
 app.use('/api/auth', authRoutes)
 app.use("/api/transactions", transactionRoutes);
 app.use("/api/dashboard", dashboardRoutes);
+app.use("/api/reports", reportRoutes);
 
 // ====================
 // 3. GLOBAL ERROR HANDLER
