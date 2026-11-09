@@ -2,6 +2,7 @@ import express, { Request, Response, NextFunction } from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import { prisma } from "./lib/prisma";
+import authRoutes from './routes/auth.route'
 
 // Load environment variables dari file .env
 dotenv.config();
@@ -29,6 +30,7 @@ app.get("/api/health", (req: Request, res: Response) => {
 
 // Contoh routing modular (nanti bisa di-import dari folder /routes)
 // app.use('/api/transactions', transactionRoutes);
+app.use('/api/auth', authRoutes)
 
 // ====================
 // 3. GLOBAL ERROR HANDLER
